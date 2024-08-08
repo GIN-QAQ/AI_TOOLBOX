@@ -44,6 +44,7 @@ docopt==0.6.2
 exceptiongroup==1.2.2
 executing==2.0.1
 
+faiss-cpu==1.8.0
 frozenlist==1.4.1
 fastjsonschema==2.20.0
 fonttools==4.53.1
@@ -69,8 +70,6 @@ isoduration==20.11.0
 isort==5.13.2
 
 Jinja2==3.1.4
-
-
 jedi==0.19.1
 json5==0.9.25
 jsonpatch==1.33
