@@ -10,7 +10,6 @@ if 'openai_api_key' not in st.session_state:
     if openai_api_key:
         st.session_state.openai_api_key = openai_api_key
 
-
 # 初始化会话状态中的记忆
 if "memory" not in st.session_state:
     st.session_state["memory"] = ConversationBufferMemory(
@@ -22,21 +21,14 @@ if "memory" not in st.session_state:
 uploaded_file = st.file_uploader("上传你的PDF文件：", type="pdf")
 question = st.text_input("对PDF内容进行提问", disabled=not uploaded_file)
 
-if 'openai_api_key' in st.session_state:
-    if uploaded_file and question and not st.session_state['openai_api_key']:  # 优化：明确使用 st.session_state['openai_api_key']
+if uploaded_file and question:
+    if 'openai_api_key' not in st.session_state or not st.session_state['openai_api_key']:
         st.info("请输入你的OpenAI API密钥")
-
-if uploaded_file and question and not st.session_state['openai_api_key']:  # 优化：明确使用 st.session_state['openai_api_key']
-    st.info("请输入你的OpenAI API密钥")
-
-if uploaded_file and question and st.session_state['openai_api_key']:  # 优化：明确使用 st.session_state['openai_api_key']
-    with st.spinner("AI正在思考中，请稍等..."):
-        try:
+    elif st.session_state['openai_api_key']:
+        with st.spinner("AI正在思考中，请稍等..."):
             response = qa_agent(st.session_state['openai_api_key'], st.session_state["memory"],
                                 uploaded_file, question)
-        except Exception as e:
-            st.error(f"处理过程中出错: {e}")
-            response = None
+
             if response:
                 st.write("### 答案")
                 st.write(response["answer"])
