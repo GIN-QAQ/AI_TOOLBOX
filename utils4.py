@@ -11,6 +11,7 @@ import os
 
 
 def qa_agent(openai_api_key, memory, uploaded_file, question):
+    temp_file_path = None
     model = ChatOpenAI(model="gpt-3.5-turbo", openai_api_key=openai_api_key, base_url="https://api.aigc369.com/v1")
     try:
         file_content = uploaded_file.read()
@@ -33,7 +34,7 @@ def qa_agent(openai_api_key, memory, uploaded_file, question):
             retriever=retriever,
             memory=memory
         )
-        response = qa.invoke({"chathistory": memory, "question": question})
+        response = qa.invoke({"chat_history": memory, "question": question})
         return response
     except Exception as e:
         print(f"发生错误: {e}")
